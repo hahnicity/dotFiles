@@ -2,7 +2,14 @@
 set nocompatible
 filetype off
 
-let vimHome="/ext/home/greg.rehm/.vim"
+let hostname = substitute(system('hostname'), '\n', '', '')
+if hostname=="gregr1"
+    " Work machine
+    let vimHome="/ext/home/greg.rehm/.vim"
+elseif hostname=="gregr"
+    " Home machine
+    let vimHome="/home/greg/.vim"
+endif
 
 " Set vundle in runtimepath.
 exec 'set rtp+='.vimHome."/bundle/vundle/"
