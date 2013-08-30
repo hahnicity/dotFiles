@@ -21,11 +21,13 @@ Bundle 'rosenfeld/conque-term'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
 Bundle 'bling/vim-airline'
+Bundle 'Valloric/YouCompleteMe'
 
 """"OTHER"""""""
 
 " add local, non git, changes.
 set rtp+=/usr/local/code/dotvim/local_config/after
+set backspace=2
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -63,18 +65,27 @@ command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" 
 " W293 - blank line contains whitespace. Just annoying"
 " W404 - import *, unable to detected undefined names.
 " W801 - redefinition of unused import, try/except import fails.
-let g:syntastic_python_checker_args = "--ignore=E123,E221,E241,E272,W291,W293,W404,W801"
+let g:syntastic_python_checker_args = "--ignore=E123,E221,E241,E272,W291,W293,W404,W801 --max-line-length=99"
 let g:syntastic_python_checker="flake8"
+""""""""""""""""""""""Highlight cursor line.""""""""""""""""""""""""""
+
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorcolumn
+  au WinLeave * setlocal nocursorline
+  au WinLeave * setlocal nocursorcolumn
+augroup END
 
 """"""""""""""""""""""""""Color""""""""""""""""""""""""""""""""""""
 
 syntax enable
-colorscheme BusyBee
+"colorscheme BusyBee
 
 let g:solarized_termcolors=16
 set background=dark
 " If using Terminator, this depends on https://github.com/ghuntley/terminator-solarized
-"colorscheme solarized
+colorscheme solarized
 
 """"""""""""""AIRLINE"""""""""""""""""""""""""""""
 let g:airline_powerline_fonts=1
