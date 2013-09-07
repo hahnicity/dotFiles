@@ -9,6 +9,9 @@ if hostname=="gregr1"
 elseif hostname=="gregr"
     " Home machine
     let vimHome="/home/greg/.vim"
+elseif hostname=="ubuntu"
+    " Laptop
+    let vimHome="/home/greg/.vim"
 endif
 
 " Set vundle in runtimepath.
