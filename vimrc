@@ -22,6 +22,7 @@ call vundle#rc(vimHome . "/bundle")
 
 """"BUNDLES"""""""
 
+Bundle 'vundle'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'BusyBee'
 Bundle 'klen/python-mode'
