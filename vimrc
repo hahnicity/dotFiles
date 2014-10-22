@@ -9,7 +9,7 @@ if hostname=="gregr1"
 elseif hostname=="gregr"
     " Home machine
     let vimHome="/home/greg/.vim"
-elseif hostname=="ubuntu"
+elseif hostname=="MinasArnor"
     " Laptop
     let vimHome="/home/greg/.vim"
 endif
@@ -25,7 +25,6 @@ call vundle#rc(vimHome . "/bundle")
 Bundle 'vundle'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'BusyBee'
-Bundle 'klen/python-mode'
 " Requires package ack-grep
 Bundle 'mileszs/ack.vim'
 Bundle 'rosenfeld/conque-term'
@@ -33,6 +32,7 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
 Bundle 'bling/vim-airline'
 Bundle 'Valloric/YouCompleteMe'
+Bundle 'SuperTab'
 
 """"OTHER"""""""
 
@@ -56,6 +56,7 @@ syntax on
 autocmd BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
 autocmd BufWritePre *.py :%s/\s\+$//e 
 autocmd BufWritePre *.py :silent! %s#\($\n\)\+\%$##
+autocmd VimResized * wincmd =
 retab
 filetype indent on
 command Q q
@@ -77,7 +78,7 @@ command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" 
 " W404 - import *, unable to detected undefined names.
 " W801 - redefinition of unused import, try/except import fails.
 let g:syntastic_python_checker_args = "--ignore=E123,E221,E241,E272,W291,W293,W404,W801 --max-line-length=99"
-let g:syntastic_python_checker="flake8"
+let g:syntastic_python_checkers=["flake8"]
 """"""""""""""""""""""Highlight cursor line.""""""""""""""""""""""""""
 
 augroup CursorLine
@@ -112,3 +113,11 @@ let g:airline_linecolumn_prefix = '¶ '
 " replace the fugitive indicator with the current working directory, followed by the filename.
 let g:airline_section_b = '%{getcwd()}'
 let g:airline_section_c = '%t'
+
+"""""""""""""""""""""" python-mode """"""""""""""""""""""""""""""""
+let g:pymode_folding = 0
+
+"""""""""""""""""""""" YCM """"""""""""""""""""""""""""
+let g:SuperTabClosePreviewOnPopupClose = 1
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
