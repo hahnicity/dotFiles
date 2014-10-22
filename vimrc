@@ -42,8 +42,8 @@ set backspace=2
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set smartindent
 set expandtab
+set cindent                                      " smartindent is deprecated
 set mouse=r
 set number
 set t_Co=256
