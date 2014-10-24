@@ -22,7 +22,7 @@ call vundle#rc(vimHome . "/bundle")
 
 """"BUNDLES"""""""
 
-Bundle 'vundle'
+Bundle 'gmarik/vundle'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'BusyBee'
 " Requires package ack-grep
@@ -33,7 +33,6 @@ Bundle 'scrooloose/syntastic'
 Bundle 'bling/vim-airline'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'SuperTab'
-Bundle 'vundle'
 Bundle 'go.vim'
 Bundle 'octave.vim'
 
