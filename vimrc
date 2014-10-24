@@ -33,6 +33,9 @@ Bundle 'scrooloose/syntastic'
 Bundle 'bling/vim-airline'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'SuperTab'
+Bundle 'vundle'
+Bundle 'go.vim'
+Bundle 'octave.vim'
 
 """"OTHER"""""""
 
@@ -77,7 +80,7 @@ command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" 
 " W293 - blank line contains whitespace. Just annoying"
 " W404 - import *, unable to detected undefined names.
 " W801 - redefinition of unused import, try/except import fails.
-let g:syntastic_python_checker_args = "--ignore=E123,E221,E241,E272,W291,W293,W404,W801 --max-line-length=99"
+let g:syntastic_python_flake8_args = "--ignore=E123,E221,E241,E272,W291,W293,W404,W801 --max-line-length=99"
 let g:syntastic_python_checkers=["flake8"]
 """"""""""""""""""""""Highlight cursor line.""""""""""""""""""""""""""
 
