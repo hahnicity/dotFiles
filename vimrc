@@ -35,6 +35,8 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'SuperTab'
 Bundle 'go.vim'
 Bundle 'octave.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 
 """"OTHER"""""""
 
@@ -123,3 +125,6 @@ let g:pymode_folding = 0
 let g:SuperTabClosePreviewOnPopupClose = 1
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+""""""""""""""""" vim-markdown """""""""""""""""""
+let g:vim_markdown_folding_disabled=1
