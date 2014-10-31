@@ -39,6 +39,8 @@ Bundle 'Shougo/neocomplete.vim'
 Bundle 'ervandew/supertab'
 Bundle 'chase/vim-ansible-yaml'
 Bundle 'ruby.vim'
+Bundle 'tpope/vim-rsi'
+Bundle 'tpope/vim-fugitive'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 

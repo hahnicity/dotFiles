@@ -35,6 +35,8 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'SuperTab'
 Bundle 'go.vim'
 Bundle 'octave.vim'
+Bundle 'tpope/vim-rsi'
+Bundle 'tpope/vim-fugitive'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 
