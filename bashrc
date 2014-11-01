@@ -120,6 +120,9 @@ set_prompt () {
     Reset='\[\e[00m\]'
     FancyX='\342\234\227'
     Checkmark='\342\234\223'
+    Yellow='\[\e[0;33m\]'       # Yellow
+    BIRed='\[\e[1;91m\]'        # Red
+    IPurple='\[\e[0;95m\]'      # Purple
 
     # Add a bright white exit status for the last command
     PS1="$White\$? "
