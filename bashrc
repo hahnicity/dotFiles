@@ -113,7 +113,7 @@ On_IWhite='\e[0;107m'   # White
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 parse_git_branch() {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \[\1\]/'
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 set_prompt () {
@@ -151,6 +151,10 @@ set_prompt () {
     fi
     # Print the working directory and prompt marker in blue, and reset
     # the text color to the default.
-    PS1+="$BIRed\w \[\033[32m\]\$(parse_git_branch)\[\033[00m\] \\\$$Reset "
+    PS1+="$BIRed\w \[\033[32m\]"
+    if [ ! -z `parse_git_branch` ]; then
+        PS1+="[\$(parse_git_branch)] "
+    fi
+    PS1+="\[\033[00m\]\\\$$Reset "
 }
 PROMPT_COMMAND='set_prompt'
