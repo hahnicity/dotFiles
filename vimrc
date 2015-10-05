@@ -2,43 +2,31 @@
 set nocompatible
 filetype off
 
-let hostname = substitute(system('hostname'), '\n', '', '')
-if hostname=="gregr1"
-    " Work machine
-    let vimHome="/ext/home/greg.rehm/.vim"
-elseif hostname=="gregr"
-    " Home machine
-    let vimHome="/home/greg/.vim"
-elseif hostname=="MinasArnor"
-    " Laptop
-    let vimHome="/home/greg/.vim"
-endif
-
-" Set vundle in runtimepath.
-exec 'set rtp+='.vimHome."/bundle/vundle/"
-
-" Call vundle with path to bundles. Default, only check .vim dir.
-call vundle#rc(vimHome . "/bundle") 
-
 """"BUNDLES"""""""
+" Set vundle in runtimepath.
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" Call vundle with path to bundles. Default, only check .vim dir.
 
 Bundle 'gmarik/vundle'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'BusyBee'
+Plugin 'Vundle.vim'
 " Requires package ack-grep
 Bundle 'mileszs/ack.vim'
 Bundle 'rosenfeld/conque-term'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
 Bundle 'bling/vim-airline'
-Bundle 'Valloric/YouCompleteMe'
 Bundle 'SuperTab'
+Bundle 'Shougo/neocomplete.vim'
 Bundle 'go.vim'
 Bundle 'octave.vim'
 Bundle 'tpope/vim-rsi'
 Bundle 'tpope/vim-fugitive'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+call vundle#end()
 
 """"OTHER"""""""
 
@@ -57,6 +45,7 @@ set encoding=utf-8
 set clipboard=unnamed
 set noshowmode                                   " required by powerline
 set laststatus=2                                 " required by powerline
+let tmpDir="~/.tmpVim"
 syntax on
 
 autocmd BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
@@ -98,12 +87,12 @@ augroup END
 """"""""""""""""""""""""""Color""""""""""""""""""""""""""""""""""""
 
 syntax enable
-"colorscheme BusyBee
+colorscheme BusyBee
 
 let g:solarized_termcolors=16
 set background=dark
 " If using Terminator, this depends on https://github.com/ghuntley/terminator-solarized
-colorscheme solarized
+"colorscheme solarized
 
 """"""""""""""AIRLINE"""""""""""""""""""""""""""""
 let g:airline_powerline_fonts=1
@@ -123,10 +112,66 @@ let g:airline_section_c = '%t'
 """""""""""""""""""""" python-mode """"""""""""""""""""""""""""""""
 let g:pymode_folding = 0
 
-"""""""""""""""""""""" YCM """"""""""""""""""""""""""""
-let g:SuperTabClosePreviewOnPopupClose = 1
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+""""" NEOCOMPLETE""""
+let g:neocomplete#enable_cursor_hold_i = 1
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_prefetch = 1
+let g:neocomplete#data_directory = tmpDir . "/neocomplete"
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+            \ 'default' : ''
+            \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+    return neocomplete#smart_close_popup() . "\<CR>"
+    " For no inserting <CR> key.
+    "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+
+" Close popup by <Space>.
+inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+endif
 
 """"""""""""""""" vim-markdown """""""""""""""""""
 let g:vim_markdown_folding_disabled=1
