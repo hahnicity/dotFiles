@@ -26,6 +26,8 @@ Bundle 'tpope/vim-rsi'
 Bundle 'tpope/vim-fugitive'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'yaml.vim'
 call vundle#end()
 
 """"OTHER"""""""
