@@ -47,10 +47,15 @@ set encoding=utf-8
 set clipboard=unnamed
 set noshowmode                                   " required by powerline
 set laststatus=2                                 " required by powerline
+set autoindent
+set formatoptions=croql
+set smarttab
 let tmpDir="~/.tmpVim"
 syntax on
 
-autocmd BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
+autocmd BufEnter *.py set sw=4 ts=4
+autocmd BufEnter *.cpp set sw=2 ts=2
+autocmd BufEnter *.yml set noai  " no autoindent
 autocmd BufWritePre *.py :%s/\s\+$//e 
 autocmd BufWritePre *.py :silent! %s#\($\n\)\+\%$##
 autocmd VimResized * wincmd =
