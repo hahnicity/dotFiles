@@ -55,9 +55,9 @@ syntax on
 
 autocmd BufEnter *.py set sw=4 ts=4
 autocmd BufEnter *.cpp set sw=2 ts=2
-autocmd BufEnter *.yml set noai  " no autoindent
-autocmd BufWritePre *.py :%s/\s\+$//e 
-autocmd BufWritePre *.py :silent! %s#\($\n\)\+\%$##
+autocmd BufEnter *.yml set noai sw=2 ts=2 " no autoindent
+autocmd BufWritePre * :%s/\s\+$//e
+autocmd BufWritePre * :silent! %s#\($\n\)\+\%$##
 autocmd VimResized * wincmd =
 retab
 filetype indent on
@@ -73,7 +73,7 @@ command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" 
 
 " E123 - closing bracket does not match indentation of opening bracket's line
 " E221 - multiple spaces before operator.  Nice to lineup =.
-" E241 - multiple spaces after :.  Nice to lineup dicts. 
+" E241 - multiple spaces after :.  Nice to lineup dicts.
 " E272 - multiple spaces before keyword.  Nice to lineup import.
 " W291 - trailing whitespace. Just annoying"
 " W293 - blank line contains whitespace. Just annoying"
