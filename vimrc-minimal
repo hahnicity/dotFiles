@@ -1,0 +1,59 @@
+""""OTHER"""""""
+
+" add local, non git, changes.
+set rtp+=/usr/local/code/dotvim/local_config/after
+set backspace=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set cindent                                      " smartindent is deprecated
+set mouse=r
+set number
+set t_Co=256
+set encoding=utf-8
+set clipboard=unnamed
+set noshowmode                                   " required by powerline
+set laststatus=2                                 " required by powerline
+set autoindent
+set formatoptions=croql
+set smarttab
+let mapleader = ","
+let maplocalleader = ",,"
+let tmpDir="~/.tmpVim"
+syntax on
+
+autocmd BufEnter *.py set sw=4 ts=4
+autocmd BufEnter *.cpp set sw=2 ts=2
+autocmd BufEnter *.yml set noai sw=2 ts=2 " no autoindent
+autocmd BufWritePre * :%s/\s\+$//e
+autocmd BufWritePre * :silent! %s#\($\n\)\+\%$##
+autocmd VimResized * wincmd =
+retab
+filetype indent on
+command Q q
+command W w
+command Wq wq
+command WQ wq
+command E e
+command! -nargs=1 -range SuperRetab <line1>,<line2>s/\v%(^ *)@<= {<args>}/\t/g
+command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" ", len(submatch(0))*' . &ts . ')'
+
+""""""""""""""""""""""Highlight cursor line.""""""""""""""""""""""""""
+
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorcolumn
+  au WinLeave * setlocal nocursorline
+  au WinLeave * setlocal nocursorcolumn
+augroup END
+
+""""""""""""""""""""""""""Color""""""""""""""""""""""""""""""""""""
+
+syntax enable
+
+let g:solarized_termcolors=16
+set background=dark
+" If using Terminator, this depends on https://github.com/ghuntley/terminator-solarized
+"colorscheme solarized

@@ -28,6 +28,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'yaml.vim'
+Plugin 'lervag/vimtex'
 call vundle#end()
 
 """"OTHER"""""""
@@ -50,6 +51,8 @@ set laststatus=2                                 " required by powerline
 set autoindent
 set formatoptions=croql
 set smarttab
+let mapleader = ","
+let maplocalleader = ",,"
 let tmpDir="~/.tmpVim"
 syntax on
 
