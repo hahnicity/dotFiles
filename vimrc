@@ -34,6 +34,7 @@ call vundle#end()
 """"OTHER"""""""
 
 " add local, non git, changes.
+set completeopt=menu
 set rtp+=/usr/local/code/dotvim/local_config/after
 set backspace=2
 set tabstop=4
@@ -105,19 +106,26 @@ set background=dark
 "colorscheme solarized
 
 """"""""""""""AIRLINE"""""""""""""""""""""""""""""
-let g:airline_powerline_fonts=1
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
+endif
+
+let g:airline_powerline_fonts=0
+" unicode symbols
+let g:airline_left_sep = '»'
 let g:airline_left_sep = '▶'
-let g:airline_left_alt_sep = '▶'
+let g:airline_right_sep = '«'
 let g:airline_right_sep = '◀'
-let g:airline_right_alt_sep = '◀'
-let g:airline_linecolumn_prefix = '¶ '
-let g:airline_paste_symbol = 'ρ'
-let g:airline_fugitive_prefix = '⎇ '
-let g:airline_readonly_symbol = 'RO'
-let g:airline_linecolumn_prefix = '¶ '
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.whitespace = 'Ξ'
+
 " replace the fugitive indicator with the current working directory, followed by the filename.
-let g:airline_section_b = '%{getcwd()}'
-let g:airline_section_c = '%t'
+" comment these two out until I can figure out a solution
+"let g:airline_section_b = '%{getcwd()}'
+"let g:airline_section_c = '%t'
 
 """""""""""""""""""""" python-mode """"""""""""""""""""""""""""""""
 let g:pymode_folding = 0
