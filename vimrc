@@ -29,6 +29,7 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'yaml.vim'
 Plugin 'lervag/vimtex'
+Plugin 'LaTeX-Suite-aka-Vim-LaTeX'
 call vundle#end()
 
 """"OTHER"""""""
