@@ -90,3 +90,21 @@ torrent() {
     fi
     transmission-cli $path -er -w ~/Downloads/
 }
+
+# shitty virtualenvwrapper wannabe functions
+VENV_HOME=~/.venv
+mkdir -p ${VENV_HOME}
+
+mkvirtualenv() {
+    local name=$1
+    virtualenv $VENV_HOME/$name
+}
+
+workon() {
+    local name=$1
+    source $VENV_HOME/$name/bin/activate
+}
+
+listvenvs() {
+    ls $VENV_HOME/
+}
