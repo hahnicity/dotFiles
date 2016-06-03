@@ -1,110 +1,160 @@
-alias ll="ls -lah"
-alias rr="rm -rf"
+if [ `id -u` != '0' ]; then
+    # Always use pip/distribute
+    export VIRTUALENV_USE_DISTRIBUTE=1
+
+    # All virtualenvs will be stored here
+    export WORKON_HOME=$HOME/.virtualenvs
+
+    source /usr/local/bin/virtualenvwrapper.sh
+    export PIP_VIRTUALENV_BASE=$WORKON_HOME
+    export PIP_RESPECT_VIRTUALENV=true
+fi
+
+# Basically the workon wrapper screws up colors and makes me sad. So I created a simpler
+# wrapper. 
+workon() {
+    source $WORKON_HOME/$1/bin/activate
+}
+
+virtualenv_info(){
+    # Get Virtual Env
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # Strip out the path and just leave the env name
+        venv="${VIRTUAL_ENV##*/}"
+    else
+        # In case you don't have one activated
+        venv=''
+    fi
+    if [[ -n $venv ]]; then
+        echo "($venv)"
+    fi
+}
+
+# Go to my workspace
+if [[ `pwd` == "${HOME}" ]]; then
+    cd ${HOME}/workspace
+fi
 alias gut=git
 alias vun=vim
-alias flintrock="flintrock --config flintrock.config.yml"
-alias gpg=gpg2
-export PATH=$PATH:/usr/local/sbin/
-export HOMEBREW_GITHUB_API_TOKEN=c1621909d2cf1ce5aa829934e4e470c04ef3c15b
-export MEG_SERVER_CFG=/Users/greg/.megconfig/config.yml
-PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
-# Add dia. You'll need to set DISPLAY=:0 as well.
-#
-# If you want a better drawing program; draw.io is free and better.
-# Or google draw. whatevs
-export PATH=$PATH:/Applications/Dia.app/Contents/Resources/bin
+# Reset
+Color_Off='\e[0m'       # Text Reset
 
-# Add gradle
-export GRADLE_HOME=/Users/greg/workspace/groovy/gradle-2.3
-export PATH=$PATH:$GRADLE_HOME/bin
+# Regular Colors
+Black='\e[0;30m'        # Black
+Red='\e[0;31m'          # Red
+Green='\e[0;32m'        # Green
+Yellow='\e[0;33m'       # Yellow
+Blue='\e[0;34m'         # Blue
+Purple='\e[0;35m'       # Purple
+Cyan='\e[0;36m'         # Cyan
+White='\e[0;37m'        # White
 
-# Android
-export PATH=$PATH:/Applications/Android\ Studio.app/Contents/MacOS
-export ANDROID_HOME=/Users/greg/Library/Android/sdk
+# Bold
+BBlack='\e[1;30m'       # Black
+BRed='\e[1;31m'         # Red
+BGreen='\e[1;32m'       # Green
+BYellow='\e[1;33m'      # Yellow
+BBlue='\e[1;34m'        # Blue
+BPurple='\e[1;35m'      # Purple
+BCyan='\e[1;36m'        # Cyan
+BWhite='\e[1;37m'       # White
 
-# wireshark
-export PATH=$PATH:/usr/local/Cellar/wireshark/2.0.1_1/bin
+# Underline
+UBlack='\e[4;30m'       # Black
+URed='\e[4;31m'         # Red
+UGreen='\e[4;32m'       # Green
+UYellow='\e[4;33m'      # Yellow
+UBlue='\e[4;34m'        # Blue
+UPurple='\e[4;35m'      # Purple
+UCyan='\e[4;36m'        # Cyan
+UWhite='\e[4;37m'       # White
 
-# other bash stuff
-export GREP_OPTIONS='--color=always'
+# Background
+On_Black='\e[40m'       # Black
+On_Red='\e[41m'         # Red
+On_Green='\e[42m'       # Green
+On_Yellow='\e[43m'      # Yellow
+On_Blue='\e[44m'        # Blue
+On_Purple='\e[45m'      # Purple
+On_Cyan='\e[46m'        # Cyan
+On_White='\e[47m'       # White
 
-activate() {
-    source $1/bin/activate
+# High Intensity
+IBlack='\e[0;90m'       # Black
+IRed='\e[0;91m'         # Red
+IGreen='\e[0;92m'       # Green
+IYellow='\e[0;93m'      # Yellow
+IBlue='\e[0;94m'        # Blue
+IPurple='\e[0;95m'      # Purple
+ICyan='\e[0;96m'        # Cyan
+IWhite='\e[0;97m'       # White
+
+# Bold High Intensity
+BIBlack='\e[1;90m'      # Black
+BIRed='\e[1;91m'        # Red
+BIGreen='\e[1;92m'      # Green
+BIYellow='\e[1;93m'     # Yellow
+BIBlue='\e[1;94m'       # Blue
+BIPurple='\e[1;95m'     # Purple
+BICyan='\e[1;96m'       # Cyan
+BIWhite='\e[1;97m'      # White
+
+# High Intensity backgrounds
+On_IBlack='\e[0;100m'   # Black
+On_IRed='\e[0;101m'     # Red
+On_IGreen='\e[0;102m'   # Green
+On_IYellow='\e[0;103m'  # Yellow
+On_IBlue='\e[0;104m'    # Blue
+On_IPurple='\e[0;105m'  # Purple
+On_ICyan='\e[0;106m'    # Cyan
+On_IWhite='\e[0;107m'   # White
+
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+parse_git_branch() {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
-activate() {
-    local venv=$1
-    if [[ -z $venv ]]; then
-        echo "Enter a virtualenv to activate"
-        exit 1
+set_prompt () {
+    Last_Command=$? # Must come first!
+    Blue='\[\e[01;34m\]'
+    White='\[\e[01;37m\]'
+    Red='\[\e[01;31m\]'
+    Green='\[\e[01;32m\]'
+    Reset='\[\e[00m\]'
+    FancyX='\342\234\227'
+    Checkmark='\342\234\223'
+    Yellow='\[\e[0;33m\]'       # Yellow
+    BIRed='\[\e[1;91m\]'        # Red
+    IPurple='\[\e[0;95m\]'      # Purple
+
+    # Add a bright white exit status for the last command
+    PS1="$White\$? "
+    # If it was successful, print a green check mark. Otherwise, print
+    # a red X.
+    if [[ $Last_Command == 0 ]]; then
+        PS1+="$Green$Checkmark "
+    else
+        PS1+="$Red$FancyX "
     fi
-    source ${venv}/bin/activate
-}
-
-connect_to_hospital_vpn() {
-    sudo openconnect --config ~/.openconnect connect.ucdmc.ucdavis.edu
-}
-
-deploy_megserver() {
-    cd $HOME/workspace/python/meg-server/ansible
-    activate buildvenv
-    local api_key=`cat ~/.megconfig/config.yml | grep gcm | awk '{print $2}'`
-    local meg_user_password=`cat ~/.megconfig/config.yml | grep password | awk '{print $2}'`
-    local sendgrid_api_key=`cat ~/.megconfig/config.yml | grep sendgrid_api_key | awk '{print $2}'`
-    # Set this as a separate var because ansible evaluates variables as
-    # literals over the command line so you cannot pass things in like
-    # --extra-args foo=$foo because ansible will not ask shell if it has
-    # an env var
-    local extra_args="megserver_gcm_api_key=$api_key meg_user_password=$meg_user_password sendgrid_api_key=$sendgrid_api_key"
-    ansible-playbook -i inventory deploy.yml --extra-vars "$extra_args" -t megserver
-    deactivate
-}
-
-push_cur_branch() {
-    /usr/local/bin/git push origin $(cur_branch)
-}
-
-pull_cur_branch() {
-    git pull --rebase origin `cur_branch`
-}
-
-cur_branch() {
-    local GREP_OPTIONS=
-    echo $(git branch | grep \* | tr -d \* | tr -d ' ')
-}
-
-cycle_wifi() {
-    sudo ifconfig en0 down
-    sudo ifconfig en0 up
-}
-
-torrent() {
-    local path=$1
-    if [[ -z $path ]]; then
-        echo "Enter a path to the file you want to download"
-        exit 1
+    # If root, just print the host in red. Otherwise, print the current user
+    # and host in green.
+    venv=$(virtualenv_info)
+    if [[ -n $venv ]]; then
+        PS1+="$Yellow$venv"
     fi
-    transmission-cli $path -er -w ~/Downloads/
+    if [[ $EUID == 0 ]]; then
+        PS1+="$BIRed\\h "
+    else
+        PS1+="$IPurple\\u@\\h "
+    fi
+    # Print the working directory and prompt marker in blue, and reset
+    # the text color to the default.
+    PS1+="$BIRed\w \[\033[32m\]"
+    if [ ! -z `parse_git_branch` ]; then
+        PS1+="[\$(parse_git_branch)] "
+    fi
+    PS1+="\[\033[00m\]\\\$$Reset "
 }
-
-# shitty virtualenvwrapper wannabe functions
-VENV_HOME=~/.venv
-mkdir -p ${VENV_HOME}
-
-mkvirtualenv() {
-    local name=$1
-    virtualenv $VENV_HOME/$name
-}
-
-workon() {
-    local name=$1
-    source $VENV_HOME/$name/bin/activate
-}
-
-listvenvs() {
-    ls $VENV_HOME/
-}
+PROMPT_COMMAND='set_prompt'
