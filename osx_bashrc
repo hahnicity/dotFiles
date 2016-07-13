@@ -5,7 +5,6 @@ alias vun=vim
 alias flintrock="flintrock --config flintrock.config.yml"
 alias gpg=gpg2
 export PATH=$PATH:/usr/local/sbin/
-export HOMEBREW_GITHUB_API_TOKEN=c1621909d2cf1ce5aa829934e4e470c04ef3c15b
 export MEG_SERVER_CFG=/Users/greg/.megconfig/config.yml
 PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
@@ -60,7 +59,7 @@ deploy_megserver() {
     # --extra-args foo=$foo because ansible will not ask shell if it has
     # an env var
     local extra_args="megserver_gcm_api_key=$api_key meg_user_password=$meg_user_password sendgrid_api_key=$sendgrid_api_key"
-    ansible-playbook -i inventory deploy.yml --extra-vars "$extra_args" -t megserver
+    ansible-playbook -i prod.inv deploy.yml --extra-vars "$extra_args" -u gregr
     deactivate
 }
 
@@ -102,6 +101,7 @@ mkvirtualenv() {
         return 1
     fi
     virtualenv $VENV_HOME/$name
+    workon $name
 }
 
 workon() {
