@@ -12,6 +12,8 @@ Bundle 'gmarik/vundle'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'BusyBee'
 Plugin 'Vundle.vim'
+Plugin 'node.js'
+Plugin 'jelera/vim-javascript-syntax'
 " Requires package ack-grep
 Bundle 'mileszs/ack.vim'
 Bundle 'rosenfeld/conque-term'
@@ -30,6 +32,7 @@ Plugin 'derekwyatt/vim-scala'
 Plugin 'yaml.vim'
 Plugin 'lervag/vimtex'
 Plugin 'LaTeX-Suite-aka-Vim-LaTeX'
+Plugin 'rust-lang/rust.vim'
 call vundle#end()
 
 """"OTHER"""""""
@@ -61,11 +64,12 @@ syntax on
 autocmd BufEnter *.py set sw=4 ts=4
 autocmd BufEnter *.cpp set sw=2 ts=2
 autocmd BufEnter *.yml set noai sw=2 ts=2 " no autoindent
+autocmd BufEnter *.ml set sw=2 ts=2
 autocmd BufWritePre * :%s/\s\+$//e
 autocmd BufWritePre * :silent! %s#\($\n\)\+\%$##
 autocmd VimResized * wincmd =
 retab
-filetype indent on
+filetype plugin indent on
 command Q q
 command W w
 command Wq wq
@@ -108,7 +112,7 @@ set background=dark
 
 """"""""""""""AIRLINE"""""""""""""""""""""""""""""
 if !exists('g:airline_symbols')
-	let g:airline_symbols = {}
+    let g:airline_symbols = {}
 endif
 
 let g:airline_powerline_fonts=0
@@ -132,6 +136,9 @@ let g:airline_symbols.whitespace = 'Ξ'
 let g:pymode_folding = 0
 
 """"" NEOCOMPLETE""""
+autocmd FileType * NeoCompleteLock
+autocmd FileType markdown NeoCompleteLock
+autocmd FileType nothing NeoCompleteLock
 let g:neocomplete#enable_cursor_hold_i = 1
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0

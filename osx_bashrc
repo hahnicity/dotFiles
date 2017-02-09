@@ -2,14 +2,26 @@ alias ll="ls -lah"
 alias rr="rm -rf"
 alias gut=git
 alias vun=vim
+#alias python=ipython
 alias flintrock="flintrock --config flintrock.config.yml"
 alias gpg=gpg2
 export PATH=$PATH:/usr/local/sbin/
 export MEG_SERVER_CFG=/Users/greg/.megconfig/config.yml
+export HISTFILE=/Users/greg/.bash_history
+export HISTFILESIZE=1000
+export HISTSIZE=80
+touch ~/.bash_sessions_disable
+eval `opam config env`
+. /Users/greg/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
+MANPATH="/usr/local/opt/findutils/libexec/gnuman:$MANPATH"
+
+# For rust installations
+source $HOME/.cargo/env
 
 # Add dia. You'll need to set DISPLAY=:0 as well.
 #
@@ -49,6 +61,12 @@ connect_to_hospital_vpn() {
 }
 
 deploy_megserver() {
+    local inv=$1
+    if [[ -z $inv ]]; then
+        echo "enter the inventory file you want to use! < develop.inv,prod.inv >"
+        exit 1
+    fi
+    local cmd_line_extra=$2
     cd $HOME/workspace/python/meg-server/ansible
     activate buildvenv
     local api_key=`cat ~/.megconfig/config.yml | grep gcm | awk '{print $2}'`
@@ -59,12 +77,13 @@ deploy_megserver() {
     # --extra-args foo=$foo because ansible will not ask shell if it has
     # an env var
     local extra_args="megserver_gcm_api_key=$api_key meg_user_password=$meg_user_password sendgrid_api_key=$sendgrid_api_key"
-    ansible-playbook -i prod.inv deploy.yml --extra-vars "$extra_args" -u gregr
+    ansible-playbook -i $inv deploy.yml --extra-vars "$extra_args" $cmd_line_extra
     deactivate
 }
 
 push_cur_branch() {
-    /usr/local/bin/git push origin $(cur_branch)
+    git push origin $(cur_branch)
+    git push origin --tags
 }
 
 pull_cur_branch() {
@@ -82,14 +101,28 @@ cycle_wifi() {
 }
 
 torrent() {
+    RANDOM=$$
+    local port=`expr $RANDOM + 444`
     local path=$1
     if [[ -z $path ]]; then
         echo "Enter a path to the file you want to download"
         return 1
     fi
-    transmission-cli $path -er -w ~/Downloads/
+    echo "Torrent on port $port"
+    transmission-cli --port $port -v -D "$path" -er -w ~/Downloads/
 }
 
+torrent_unsafe() {
+    RANDOM=$$
+    local port=`expr $RANDOM + 444`
+    local path=$1
+    if [[ -z $path ]]; then
+        echo "Enter a path to the file you want to download"
+        return 1
+    fi
+    echo "Torrent on port $port"
+    transmission-cli --port $port -v -D "$path" -et -w ~/Downloads/
+}
 # shitty virtualenvwrapper wannabe functions
 VENV_HOME=~/.venv
 mkdir -p ${VENV_HOME}
@@ -111,4 +144,8 @@ workon() {
 
 listvenvs() {
     ls $VENV_HOME/
+}
+
+reload() {
+    source ~/.bashrc
 }
